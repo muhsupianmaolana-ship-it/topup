@@ -17,6 +17,7 @@ try {
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TopUpKu - Top Up Game Cepat & Aman</title>
@@ -147,8 +148,8 @@ try {
   <div class="stats-bar">
     <div class="container stats-inner">
       <div class="stat-item">
-        <span class="stat-num neon-text">50K+</span>
-        <span class="stat-label">Transaksi/Hari</span>
+        <span class="stat-num neon-text">Sat Set</span>
+        <span class="stat-label">Tanpa Ribet</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
@@ -190,14 +191,16 @@ try {
              data-aos-delay="<?= min($i * 60, 400) ?>">
 
             <div class="card-img-wrapper">
-              <img src="<?= htmlspecialchars($game['code']) ?>.jpg.webp"
-                   alt="<?= htmlspecialchars($game['name']) ?>"
-                   onerror="this.src='<?= htmlspecialchars($game['code']) ?>.jpg'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
-              <div class="img-fallback"><?= strtoupper(substr($game['name'], 0, 3)) ?></div>
-              <div class="card-hover-overlay">
-                <span class="hover-btn">⚡ Top Up</span>
-              </div>
-            </div>
+  <img src="asset/<?= htmlspecialchars($game['code']) ?>.jpg.webp"
+       alt="<?= htmlspecialchars($game['name']) ?>"
+       onerror="this.src='asset/<?= htmlspecialchars($game['code']) ?>.jpg'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
+  
+  <div class="img-fallback"><?= strtoupper(substr($game['name'], 0, 3)) ?></div>
+  
+  <div class="card-hover-overlay">
+    <span class="hover-btn">⚡ Top Up</span>
+  </div>
+</div>
 
             <div class="card-body">
               <h3><?= htmlspecialchars($game['name']) ?></h3>
@@ -261,9 +264,10 @@ try {
       </div>
       <div class="footer-links">
         <h4>Ikuti Kami</h4>
-        <a href="#">Instagram</a>
-        <a href="#">TikTok</a>
-        <a href="#">WhatsApp</a>
+        <a href="https://www.instagram.com/lana_pleaseimprove" target="_blank">Instagram</a>
+        <a href="https://wa.me/6281998861649" target="_blank">WhatsApp</a>
+        <a href="mailto:emailbisnismu@gmail.com?subject=Tanya%20Seputar%20TopUpKu" target="_blank">Email</a>
+
       </div>
     </div>
     <div class="footer-bottom">
