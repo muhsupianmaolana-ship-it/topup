@@ -44,14 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       let q = searchInput.value.toLowerCase().trim();
-
-      // Terjemahkan alias ke nama lengkap jika ada
       if (ALIAS[q]) q = ALIAS[q];
-
       const cards = document.querySelectorAll('.game-card');
-
       if (q === '') {
-        // Kosongkan pencarian → tampilkan semua card
         cards.forEach(card => {
           card.style.display = '';
           card.style.opacity = '1';
@@ -59,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.empty-search-msg')?.remove();
         return;
       }
-
       let found = 0;
       cards.forEach(card => {
         const name = card.querySelector('h3')?.textContent.toLowerCase() || '';
@@ -68,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.opacity = matches ? '1' : '';
         if (matches) found++;
       });
-
-      // Tampilkan pesan jika tidak ada hasil
       document.querySelector('.empty-search-msg')?.remove();
       if (found === 0) {
         const grid = document.querySelector('.game-grid');
@@ -127,13 +119,9 @@ function resetAutoSlide() {
   startAutoSlide();
 }
 
-// Make accessible from HTML onclick
 window.goSlide = goSlide;
 window.changeSlide = changeSlide;
 
-// ════════════════════════════════════════════════════
-//  MOBILE MENU
-// ════════════════════════════════════════════════════
 function toggleMenu() {
   const menu = document.getElementById('mobileMenu');
   if (menu) menu.classList.toggle('open');
@@ -148,12 +136,10 @@ function initParticles() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let w, h, particles = [];
-
   const COLORS = ['rgba(0,245,255,', 'rgba(191,0,255,', 'rgba(0,255,136,'];
   const particleCount = Math.min(55, Math.floor(window.innerWidth / 22));
   const maxDist = 130;
   let mouse = { x: null, y: null };
-
   const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
   window.addEventListener('resize', resize);
   resize();
@@ -181,9 +167,7 @@ function initParticles() {
       ctx.fill();
     }
   }
-
   for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-
   const animate = () => {
     ctx.clearRect(0, 0, w, h);
     particles.forEach((p, i) => {
@@ -217,41 +201,25 @@ function initParticles() {
   animate();
 }
 
-// ════════════════════════════════════════════════════
-//  SLIDE PARTICLES (per slide canvas overlay)
-// ════════════════════════════════════════════════════
 function initSlideParticles() {
   const slider = document.querySelector('.hero-slider');
   if (!slider) return;
-
   const canvas = document.createElement('canvas');
   canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
   slider.appendChild(canvas);
   const ctx = canvas.getContext('2d');
-
   let w, h;
-  const resize = () => {
-    w = canvas.width = slider.offsetWidth;
-    h = canvas.height = slider.offsetHeight;
-  };
+  const resize = () => { w = canvas.width = slider.offsetWidth; h = canvas.height = slider.offsetHeight; };
   window.addEventListener('resize', resize);
   resize();
-
-  // Konfigurasi partikel per slide
   const CONFIGS = [
-    // Slide 1 ML — bintang besar ungu/biru melayang jelas
     { count: 80, colors: ['rgba(200,0,255,', 'rgba(0,150,255,', 'rgba(255,0,200,', 'rgba(255,255,255,'], size: [2, 6], speed: 0.6, shape: 'star' },
-    // Slide 2 FF — bara api melayang ke atas
     { count: 60, colors: ['rgba(255,80,0,', 'rgba(255,160,0,', 'rgba(255,40,0,'], size: [1, 4], speed: 0.7, shape: 'ember' },
-    // Slide 3 PUBG — hujan/debu bergerak diagonal
     { count: 70, colors: ['rgba(150,180,255,', 'rgba(200,220,255,', 'rgba(100,140,255,'], size: [0.5, 2], speed: 1.2, shape: 'rain' },
   ];
 
   class Particle {
-    constructor(cfg) {
-      this.cfg = cfg;
-      this.reset(true);
-    }
+    constructor(cfg) { this.cfg = cfg; this.reset(true); }
     reset(initial = false) {
       const cfg = this.cfg;
       this.x = Math.random() * w;
@@ -265,76 +233,40 @@ function initSlideParticles() {
       this.maxLife = 80 + Math.random() * 120;
     }
     update() {
-      const cfg = this.cfg;
-      this.life++;
-      if (cfg.shape === 'ember') {
-        this.y -= this.speed; this.x += this.drift;
-        if (this.y < -10) this.reset();
-      } else if (cfg.shape === 'rain') {
-        this.y += this.speed * 2; this.x += this.speed * 0.8;
-        if (this.y > h + 10 || this.x > w + 10) this.reset();
-      } else {
-        this.y -= this.speed * 0.3; this.x += this.drift * 0.5;
-        if (this.y < -10) { this.y = h + 10; }
-        if (this.x < -10) this.x = w + 10;
-        if (this.x > w + 10) this.x = -10;
-      }
+      const cfg = this.cfg; this.life++;
+      if (cfg.shape === 'ember') { this.y -= this.speed; this.x += this.drift; if (this.y < -10) this.reset(); }
+      else if (cfg.shape === 'rain') { this.y += this.speed * 2; this.x += this.speed * 0.8; if (this.y > h + 10 || this.x > w + 10) this.reset(); }
+      else { this.y -= this.speed * 0.3; this.x += this.drift * 0.5; if (this.y < -10) this.y = h + 10; if (this.x < -10) this.x = w + 10; if (this.x > w + 10) this.x = -10; }
     }
     draw() {
       const fade = this.life < 20 ? this.life / 20 : this.life > this.maxLife - 20 ? (this.maxLife - this.life) / 20 : 1;
-      // Efek kedip/twinkle
       const twinkle = 0.6 + 0.4 * Math.sin(this.life * 0.15 + this.x);
       const finalAlpha = this.alpha * fade * twinkle;
-
       ctx.beginPath();
       if (this.cfg.shape === 'rain') {
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x - this.size, this.y + this.size * 5);
-        ctx.strokeStyle = this.color + (finalAlpha) + ')';
-        ctx.lineWidth = this.size * 0.5;
-        ctx.stroke();
+        ctx.moveTo(this.x, this.y); ctx.lineTo(this.x - this.size, this.y + this.size * 5);
+        ctx.strokeStyle = this.color + (finalAlpha) + ')'; ctx.lineWidth = this.size * 0.5; ctx.stroke();
       } else {
-        // Glow luar besar
-        ctx.shadowBlur = this.size * 8;
-        ctx.shadowColor = this.color + '1)';
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color + finalAlpha + ')';
-        ctx.fill();
-
-        // Titik inti terang
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + (finalAlpha * 0.9) + ')';
-        ctx.shadowBlur = this.size * 4;
-        ctx.shadowColor = 'rgba(255,255,255,0.8)';
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur = this.size * 8; ctx.shadowColor = this.color + '1)';
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color + finalAlpha + ')'; ctx.fill();
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (finalAlpha * 0.9) + ')'; ctx.shadowBlur = this.size * 4; ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.fill(); ctx.shadowBlur = 0;
       }
     }
   }
-
-  // Buat partikel untuk semua slide
   let particles = [];
-  CONFIGS.forEach(cfg => {
-    for (let i = 0; i < cfg.count; i++) particles.push({ p: new Particle(cfg), cfg });
-  });
-
-  // Hanya tampilkan partikel slide aktif
+  CONFIGS.forEach(cfg => { for (let i = 0; i < cfg.count; i++) particles.push({ p: new Particle(cfg), cfg }); });
   const animate = () => {
     ctx.clearRect(0, 0, w, h);
-    const active = currentSlide;
-    const cfg = CONFIGS[active];
-    particles
-      .filter(item => item.cfg === cfg)
-      .forEach(item => { item.p.update(); item.p.draw(); });
+    const cfg = CONFIGS[currentSlide];
+    particles.filter(item => item.cfg === cfg).forEach(item => { item.p.update(); item.p.draw(); });
     requestAnimationFrame(animate);
   };
   animate();
 }
 
-
+// ── UPDATED TOPUP PAGE LOGIC ──────────────────────
 function initTopupPage() {
-  // Nominal select
   document.querySelectorAll('.nominal-item').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.nominal-item').forEach(i => i.classList.remove('active'));
@@ -343,7 +275,6 @@ function initTopupPage() {
     });
   });
 
-  // Payment select
   document.querySelectorAll('.payment-item').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.payment-item').forEach(i => i.classList.remove('active'));
@@ -352,7 +283,6 @@ function initTopupPage() {
     });
   });
 
-  // Check ID button
   const checkBtn = document.getElementById('check-id-btn');
   if (checkBtn) {
     checkBtn.addEventListener('click', async () => {
@@ -380,13 +310,51 @@ function initTopupPage() {
     });
   }
 
-  // Buy button
   const buyBtn = document.getElementById('buy-btn');
   if (buyBtn) {
-    buyBtn.addEventListener('click', () => {
-      if (!document.querySelector('.nominal-item.active')) return alert('⚠️ Pilih nominal top up dulu!');
-      if (!document.querySelector('.payment-item.active')) return alert('⚠️ Pilih metode pembayaran dulu!');
-      alert('🚀 Integrasi Payment Gateway (Midtrans/Duitku) akan ditambahkan di tahap berikutnya.');
+    buyBtn.addEventListener('click', async () => {
+      const activeNominal = document.querySelector('.nominal-item.active');
+      const activePayment = document.querySelector('.payment-item.active');
+      const userId = document.getElementById('user_id')?.value.trim();
+      const zoneId = document.getElementById('zone_id')?.value.trim() || '';
+
+      if (!activeNominal) return alert('⚠️ Pilih nominal top up dulu!');
+      if (!activePayment) return alert('⚠️ Pilih metode pembayaran dulu!');
+      if (!userId) return alert('⚠️ Masukkan User ID dulu!');
+
+      const resultBox = document.getElementById('validation-result');
+      if (!resultBox || !resultBox.classList.contains('success')) {
+        return alert('⚠️ Klik "Cek ID" dulu untuk memverifikasi akun!');
+      }
+
+      const originalHTML = buyBtn.innerHTML;
+      buyBtn.disabled = true;
+      buyBtn.innerHTML = '<span class="loader"></span> Memproses...';
+
+      try {
+        const response = await fetch('process_order.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            product_id: parseInt(activeNominal.dataset.id),
+            payment_method_id: parseInt(activePayment.dataset.id),
+            user_id: userId,
+            zone_id: zoneId
+          })
+        });
+        const data = await response.json();
+        if (data.success) {
+          window.location.href = data.redirect;
+        } else {
+          alert('❌ ' + (data.message || 'Terjadi kesalahan. Coba lagi.'));
+          buyBtn.disabled = false;
+          buyBtn.innerHTML = originalHTML;
+        }
+      } catch (err) {
+        alert('❌ Gagal terhubung ke server.');
+        buyBtn.disabled = false;
+        buyBtn.innerHTML = originalHTML;
+      }
     });
   }
 }
