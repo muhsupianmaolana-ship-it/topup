@@ -111,9 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       gap: 8px;
     }
 
-    /* =============================================
-       NOTIFIKASI BESAR — PAID / REJECTED
-    ============================================= */
     .notif-banner {
       border-radius: 18px;
       padding: 32px 28px;
@@ -129,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Paid / Konfirmasi */
     .notif-banner.notif-paid {
       background: linear-gradient(135deg, rgba(0,255,136,0.12), rgba(0,200,100,0.06));
       border: 2px solid rgba(0,255,136,0.5);
@@ -150,7 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       50%       { transform: scale(1.1); opacity: 1; }
     }
 
-    /* Rejected / Ditolak */
     .notif-banner.notif-rejected {
       background: linear-gradient(135deg, rgba(255,0,85,0.12), rgba(200,0,60,0.06));
       border: 2px solid rgba(255,0,85,0.5);
@@ -196,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       z-index: 1;
     }
 
-    .notif-paid .notif-title  { color: #00ff88; text-shadow: 0 0 20px rgba(0,255,136,0.6); }
+    .notif-paid .notif-title     { color: #00ff88; text-shadow: 0 0 20px rgba(0,255,136,0.6); }
     .notif-rejected .notif-title { color: #ff0055; text-shadow: 0 0 20px rgba(255,0,85,0.6); }
 
     .notif-banner .notif-desc {
@@ -234,7 +229,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       color: #ff0055;
     }
 
-    /* Waiting confirmation banner */
     .notif-banner.notif-waiting {
       background: linear-gradient(135deg, rgba(0,245,255,0.10), rgba(0,120,200,0.06));
       border: 2px solid rgba(0,245,255,0.4);
@@ -248,9 +242,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       color: #00f5ff;
     }
 
-    /* =============================================
-       STYLE LAMA (tidak berubah)
-    ============================================= */
     .order-id-box {
       background: rgba(0,245,255,0.05);
       border: 1px dashed rgba(0,245,255,0.25);
@@ -375,11 +366,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
 
   <main class="confirm-wrapper">
 
-    <!-- =============================================
-         NOTIFIKASI BESAR — Muncul sesuai status
-    ============================================= -->
     <?php if ($order['status'] === 'paid'): ?>
-    <div class="notif-banner notif-paid">
+    <div class="notif-banner notif-paid" id="notif-banner">
       <span class="notif-icon">🎉</span>
       <div class="notif-title">PEMBAYARAN DIKONFIRMASI!</div>
       <div class="notif-desc">
@@ -390,7 +378,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
     </div>
 
     <?php elseif ($order['status'] === 'rejected'): ?>
-    <div class="notif-banner notif-rejected">
+    <div class="notif-banner notif-rejected" id="notif-banner">
       <span class="notif-icon">❌</span>
       <div class="notif-title">PEMBAYARAN DITOLAK!</div>
       <div class="notif-desc">
@@ -402,7 +390,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
     </div>
 
     <?php elseif ($order['status'] === 'waiting_confirmation'): ?>
-    <div class="notif-banner notif-waiting">
+    <div class="notif-banner notif-waiting" id="notif-banner">
       <span class="notif-icon">⏳</span>
       <div class="notif-title">MENUNGGU KONFIRMASI ADMIN</div>
       <div class="notif-desc">
@@ -413,13 +401,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
     </div>
     <?php endif; ?>
 
-    <!-- Order ID -->
     <div class="order-id-box">
       <span>Nomor Order</span>
       <span><?= htmlspecialchars($order['order_id']) ?></span>
     </div>
 
-    <!-- Timer (muncul jika status pending atau rejected) -->
     <?php if (in_array($order['status'], ['pending', 'rejected'])): ?>
     <div class="timer-box">
       <span>⏱ Selesaikan pembayaran dalam</span>
@@ -427,7 +413,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
     </div>
     <?php endif; ?>
 
-    <!-- Detail Order -->
     <div class="confirm-card">
       <h3>📋 Detail Order</h3>
       <div class="info-row">
@@ -474,12 +459,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
           ];
           $s = $status_map[$order['status']] ?? ['class' => 'badge-pending', 'label' => $order['status']];
           ?>
-          <span class="status-badge <?= $s['class'] ?>"><?= $s['label'] ?></span>
+          <span class="status-badge <?= $s['class'] ?>" id="status-badge"><?= $s['label'] ?></span>
         </span>
       </div>
     </div>
 
-    <!-- Info Pembayaran (hanya jika status pending atau rejected) -->
     <?php if (in_array($order['status'], ['pending', 'rejected'])): ?>
     <div class="confirm-card">
       <h3>💳 Cara Pembayaran</h3>
@@ -500,8 +484,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       </div>
     </div>
 
-    <!-- Upload Bukti Transfer -->
-    <div class="confirm-card">
+    <div class="confirm-card" id="upload-card">
       <h3>📤 Upload Bukti Transfer</h3>
 
       <?php if ($upload_success): ?>
@@ -545,7 +528,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
     </div>
     <?php endif; ?>
 
-    <!-- Langkah-langkah (sembunyikan jika sudah paid) -->
     <?php if ($order['status'] !== 'paid'): ?>
     <div class="confirm-card">
       <h3>📌 Langkah Selanjutnya</h3>
@@ -569,7 +551,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
   </main>
 
   <script>
+    // ============================================
+    // SCRIPT UTK SCROLL OTOMATIS KE KARTU UPLOAD
+    // ============================================
+    (function() {
+      if (window.location.href.includes('scrollTo=upload')) {
+        setTimeout(() => {
+          const uploadCard = document.getElementById('upload-card');
+          if (uploadCard) {
+            uploadCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 400);
+      }
+    })();
+
+    // ============================================
     // Timer countdown 24 jam
+    // ============================================
     (function() {
       const el = document.getElementById('countdown');
       if (!el) return;
@@ -588,7 +586,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       tick();
     })();
 
-    // Copy nomor rekening
+    // ============================================
+    // Copy rekening
+    // ============================================
     function copyNomor() {
       const nomor = document.getElementById('rek-nomor').textContent;
       navigator.clipboard.writeText(nomor).then(() => {
@@ -604,10 +604,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       navigator.clipboard.writeText(jumlah).then(() => alert('Jumlah tersalin: Rp ' + parseInt(jumlah).toLocaleString('id-ID')));
     }
 
-    // Preview gambar
-    const input     = document.getElementById('bukti-input');
-    const preview   = document.getElementById('preview-img');
-    const submitBtn = document.getElementById('submit-btn');
+    // ============================================
+    // Preview gambar & drag drop
+    // ============================================
+    const input      = document.getElementById('bukti-input');
+    const preview    = document.getElementById('preview-img');
+    const submitBtn  = document.getElementById('submit-btn');
     const uploadArea = document.getElementById('upload-area');
 
     if (input) {
@@ -625,7 +627,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       });
     }
 
-    // Drag & drop
     if (uploadArea) {
       uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
       uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
@@ -638,6 +639,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
         }
       });
     }
+
+    // ============================================
+    // POLLING REAL-TIME — cek status tiap 5 detik
+    // ============================================
+    (function() {
+      const statusAwal = '<?= $order['status'] ?>';
+      if (statusAwal === 'paid' || statusAwal === 'pending') return;
+
+      const orderId = '<?= htmlspecialchars($order['order_id'], ENT_QUOTES) ?>';
+      let pollInterval;
+
+      function ubahBanner(status) {
+        const isPaid = status === 'paid';
+        const banner = document.getElementById('notif-banner');
+        if (!banner) return;
+
+        // Ganti class banner agar warna ikut berubah
+        banner.className = 'notif-banner ' + (isPaid ? 'notif-paid' : 'notif-rejected');
+
+        // Ganti isi banner langsung di tempat
+        banner.innerHTML = `
+          <span class="notif-icon">${isPaid ? '🎉' : '❌'}</span>
+          <div class="notif-title">${isPaid ? 'PEMBAYARAN DIKONFIRMASI!' : 'PEMBAYARAN DITOLAK!'}</div>
+          <div class="notif-desc">
+            ${isPaid
+              ? 'Yeay! Pembayaran kamu <strong>berhasil diverifikasi</strong> oleh admin.<br>Diamond akan segera masuk ke akunmu dalam beberapa menit.'
+              : 'Admin <strong>menolak bukti pembayaran</strong> yang kamu kirim.<br>Silakan upload ulang bukti transfer yang benar di bawah.'
+            }
+          </div>
+          <span class="notif-order">${isPaid ? '✓ Lunas' : '✗ Ditolak'}</span>
+        `;
+
+        // Update juga badge status di tabel detail
+        const badge = document.getElementById('status-badge');
+        if (badge) {
+          badge.className = 'status-badge ' + (isPaid ? 'badge-confirmed' : 'badge-rejected');
+          badge.textContent = isPaid ? '✅ Lunas' : '❌ Pembayaran Ditolak';
+        }
+
+        // Kalau ditolak, reload setelah 7 detik lalu scroll ke form upload
+        if (!isPaid) {
+          setTimeout(() => {
+            location.href = location.href + '&scrollTo=upload';
+          }, 7000);
+        }
+      }
+
+      function cekStatus() {
+        fetch('cek_status.php?order=' + encodeURIComponent(orderId))
+          .then(r => r.json())
+          .then(data => {
+            if (!data.success) return;
+            if (data.status === 'paid' || data.status === 'rejected') {
+              clearInterval(pollInterval);
+              ubahBanner(data.status);
+            }
+          })
+          .catch(() => {});
+      }
+
+      // Mulai polling setiap 5 detik
+      pollInterval = setInterval(cekStatus, 5000);
+
+      // Pause saat tab tidak aktif, resume saat aktif lagi
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearInterval(pollInterval);
+        } else {
+          cekStatus();
+          pollInterval = setInterval(cekStatus, 5000);
+        }
+      });
+    })();
   </script>
 
 </body>
