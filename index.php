@@ -77,8 +77,8 @@ try {
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#games" class="mobile-link" onclick="toggleMenu()">Game</a>
-    <a href="#" class="mobile-link">Promo</a>
+    <a href="index.php" class="mobile-link" onclick="toggleMenu()">Game</a>
+    <a href="http://localhost/TUGAS-WEB/promo.php/" class="mobile-link">Promo</a>
     <a href="#" class="mobile-link">Pesanan</a>
     <a href="#" class="mobile-link">Bantuan</a>
   </div>
