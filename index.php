@@ -48,11 +48,11 @@ try {
       </a>
 
       <ul class="nav-menu">
-        <li><a href="#games" class="nav-link active">Game</a></li>
-        <li><a href="#" class="nav-link">Promo</a></li>
-        <li><a href="#" class="nav-link">Pesanan</a></li>
-        <li><a href="#" class="nav-link">Bantuan</a></li>
-      </ul>
+  <li><a href="index.php#games" class="nav-link active">Game</a></li>
+  <li><a href="promo.php" class="nav-link">Promo</a></li>
+  <li><a href="pesanan.php" class="nav-link">Pesanan</a></li>
+  <li><a href="bantuan.php" class="nav-link">Bantuan</a></li>
+</ul>
 
       <div class="nav-right">
         <div class="search-wrapper">
@@ -77,11 +77,11 @@ try {
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.php" class="mobile-link" onclick="toggleMenu()">Game</a>
-    <a href="http://localhost/TUGAS-WEB/promo.php/" class="mobile-link">Promo</a>
-    <a href="#" class="mobile-link">Pesanan</a>
-    <a href="#" class="mobile-link">Bantuan</a>
-  </div>
+  <a href="index.php#games" class="mobile-link" onclick="toggleMenu()">Game</a>
+  <a href="promo.php" class="mobile-link" onclick="toggleMenu()">Promo</a>
+  <a href="pesanan.php" class="mobile-link" onclick="toggleMenu()">Pesanan</a>
+  <a href="bantuan.php" class="mobile-link" onclick="toggleMenu()">Bantuan</a>
+</div>
 
   <!-- HERO BANNER / SLIDER -->
   <section class="hero-slider">

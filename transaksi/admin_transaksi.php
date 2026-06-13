@@ -50,6 +50,30 @@ $total_income = $conn->query("SELECT SUM(total_paid) as total FROM orders WHERE 
     <meta charset="UTF-8">
     <title>Admin Transaksi - TopUpKu</title>
     <style>
+        #bg-canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
+}
+
+body{
+    position:relative;
+    background:#0f0c29;
+    overflow-x:hidden;
+}
+
+.container,
+.table-container,
+.stats-grid,
+h1{
+    position:relative;
+    z-index:2;
+}
+
         :root { --primary: #00f5ff; --bg: #0f0c29; --card: #1b1b3a; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
@@ -167,6 +191,96 @@ document.addEventListener('keydown', function(e) {
     }
 });
 </script>
+<canvas id="bg-canvas"></canvas>
+<script>
+const canvas = document.getElementById('bg-canvas');
 
+if(canvas){
+    const ctx = canvas.getContext('2d');
+
+    let w,h;
+    let particles = [];
+
+    function resize(){
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle{
+        constructor(){
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.vx = (Math.random() - 0.5) * 0.6;
+            this.vy = (Math.random() - 0.5) * 0.6;
+            this.size = Math.random() * 2 + 1;
+
+            const colors = [
+                'rgba(0,245,255,',
+                'rgba(191,0,255,',
+                'rgba(0,255,136,'
+            ];
+
+            this.color = colors[Math.floor(Math.random()*colors.length)];
+        }
+
+        update(){
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if(this.x < 0 || this.x > w) this.vx *= -1;
+            if(this.y < 0 || this.y > h) this.vy *= -1;
+        }
+
+        draw(){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+            ctx.fillStyle = this.color + '0.8)';
+            ctx.fill();
+        }
+    }
+
+    for(let i=0;i<70;i++){
+        particles.push(new Particle());
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,w,h);
+
+        particles.forEach((p,i)=>{
+
+            p.update();
+            p.draw();
+
+            for(let j=i+1;j<particles.length;j++){
+
+                const dx = p.x - particles[j].x;
+                const dy = p.y - particles[j].y;
+
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if(dist < 130){
+
+                    ctx.beginPath();
+                    ctx.moveTo(p.x,p.y);
+                    ctx.lineTo(particles[j].x,particles[j].y);
+
+                    ctx.strokeStyle =
+                    'rgba(0,245,255,' + (0.12*(1-dist/130)) + ')';
+
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+</script>
 </body>
 </html>

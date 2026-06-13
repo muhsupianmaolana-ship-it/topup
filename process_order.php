@@ -1,6 +1,13 @@
 <?php
 session_start();
 require 'koneksi.php';
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Silakan login terlebih dahulu'
+    ]);
+    exit;
+}
 
 header('Content-Type: application/json');
 
@@ -59,20 +66,36 @@ try {
 
     // Insert ke tabel orders
     $stmt3 = $pdo->prepare("
-        INSERT INTO orders (order_id, game_id, product_id, payment_method_id, buyer_data, price_product, fee_payment, total_paid, status, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW())
-    ");
-    $stmt3->execute([
-        $order_id,
-        $product['game_id'],
-        $product_id,
-        $payment_method_id,
-        $buyer_data,
-        $price_product,
-        $fee_payment,
-        $total_paid
-    ]);
+    INSERT INTO orders (
+        user_id,
+        order_id,
+        game_id,
+        product_id,
+        payment_method_id,
+        buyer_data,
+        price_product,
+        fee_payment,
+        total_paid,
+        status,
+        created_at,
+        updated_at
+    )
+    VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW()
+    )
+");
 
+$stmt3->execute([
+    $_SESSION['user_id'],
+    $order_id,
+    $product['game_id'],
+    $product_id,
+    $payment_method_id,
+    $buyer_data,
+    $price_product,
+    $fee_payment,
+    $total_paid
+]);
     $id = $pdo->lastInsertId();
 
     // Simpan order ke session untuk halaman konfirmasi
