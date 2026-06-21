@@ -35,7 +35,7 @@ try {
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="topbar-slogan">⚡ INSTANT TOP UP! INSTANT PLAY!</span>
-      <a href="#" class="btn btn-outline-sm">Cek Pesanan</a>
+      <a href="pesanan.php" class="btn btn-outline-sm">Cek Pesanan</a>
     </div>
   </div>
 

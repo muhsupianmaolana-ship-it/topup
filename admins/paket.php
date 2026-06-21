@@ -75,25 +75,52 @@ if (isset($_GET['edit'])) {
   <title>Kelola Paket Diamond - Admin TopUpKu</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    #bg-canvas{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        z-index:-1;
+        pointer-events:none;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+
+    :root { --primary: #00f5ff; --bg: #0f0c29; --card: #1b1b3a; }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .navbar,
+    .container {
+        position: relative;
+        z-index: 2;
+    }
 
     .navbar {
-      background: #fff;
-      border-bottom: 1px solid #e5e5e0;
+      background: var(--card);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    .navbar .brand { font-size: 16px; font-weight: 700; color: #1a1a1a; text-decoration: none; }
-    .navbar .brand span { color: #6c5ce7; }
-    .navbar-right { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #666; }
-    .navbar-right a { color: #c0392b; text-decoration: none; font-size: 13px; }
+    .navbar .brand { font-size: 16px; font-weight: 700; color: #fff; text-decoration: none; }
+    .navbar .brand span { color: var(--primary); }
+    .navbar-right { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #aaa; }
+    .navbar-right a { color: #ff4d6d; text-decoration: none; font-size: 13px; }
+    .navbar-right a[href="profil.php"] { color: var(--primary); }
 
     .container { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
 
-    .page-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+    .page-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #fff; }
 
     .alert {
       padding: 12px 16px;
@@ -101,42 +128,46 @@ if (isset($_GET['edit'])) {
       font-size: 13px;
       margin-bottom: 16px;
     }
-    .alert-success { background: #eafaf1; color: #1e8449; border: 1px solid #a9dfbf; }
-    .alert-error   { background: #fff0f0; color: #c0392b; border: 1px solid #fcd; }
+    .alert-success { background: #00ff8822; color: #00ff88; border: 1px solid #00ff88; }
+    .alert-error   { background: #ff005522; color: #ff0055; border: 1px solid #ff0055; }
 
     .card {
-      background: #fff;
-      border-radius: 12px;
-      border: 1px solid #e5e5e0;
+      background: var(--card);
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.05);
       padding: 24px;
       margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
 
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 5px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 500; color: #aaa; margin-bottom: 5px; }
     .form-group input,
     .form-group select {
       width: 100%;
       padding: 9px 12px;
-      border: 1px solid #e0e0e0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 8px;
       font-size: 13px;
-      color: #1a1a1a;
+      color: #fff;
       outline: none;
       transition: border-color .2s;
     }
+    .form-group input::placeholder { color: #777; }
     .form-group input:focus,
-    .form-group select:focus { border-color: #6c5ce7; }
+    .form-group select:focus { border-color: var(--primary); }
+    .form-group select option { background: var(--card); color: #fff; }
 
     .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .2s; }
-    .btn-primary { background: #1a1a1a; color: #fff; }
-    .btn-primary:hover { background: #333; }
-    .btn-warning { background: #f39c12; color: #fff; }
-    .btn-warning:hover { background: #d68910; }
-    .btn-cancel { background: #f5f5f0; color: #555; border: 1px solid #e0e0e0; }
-    .btn-cancel:hover { background: #e5e5e0; }
+    .btn-primary { background: var(--primary); color: #000; }
+    .btn-primary:hover { box-shadow: 0 0 15px rgba(0,245,255,0.5); }
+    .btn-warning { background: #ffcc00; color: #000; }
+    .btn-warning:hover { box-shadow: 0 0 15px rgba(255,204,0,0.5); }
+    .btn-cancel { background: transparent; color: #aaa; border: 1px solid rgba(255,255,255,0.15); }
+    .btn-cancel:hover { background: rgba(255,255,255,0.08); }
 
     .filter-bar {
       display: flex;
@@ -151,41 +182,43 @@ if (isset($_GET['edit'])) {
       font-size: 12px;
       font-weight: 500;
       text-decoration: none;
-      border: 1px solid #e0e0e0;
-      color: #555;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #aaa;
       transition: all .2s;
     }
     .filter-bar a.active,
-    .filter-bar a:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .filter-bar a:hover { background: var(--primary); color: #000; border-color: var(--primary); }
 
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 10px 12px; color: #888; font-weight: 500; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
-    td { padding: 12px 12px; border-bottom: 1px solid #f5f5f0; vertical-align: middle; }
+    th { text-align: left; padding: 15px 12px; color: var(--primary); font-weight: 500; background: rgba(255,255,255,0.05); font-size: 12px; }
+    td { padding: 15px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; color: #ddd; }
     tr:last-child td { border-bottom: none; }
 
-    .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; }
-    .badge-available { background: #eafaf1; color: #1e8449; }
-    .badge-unavailable { background: #f5f5f0; color: #888; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 20px; text-transform: uppercase; }
+    .badge-available { background: #00ff8822; color: #00ff88; border: 1px solid #00ff88; }
+    .badge-unavailable { background: #ff444422; color: #ff4444; border: 1px solid #ff4444; }
 
-    .game-tag { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #eef2ff; color: #3730a3; font-weight: 500; }
+    .game-tag { font-size: 11px; padding: 5px 12px; border-radius: 20px; background: rgba(0,245,255,0.1); color: var(--primary); font-weight: 500; border: 1px solid rgba(0,245,255,0.3); }
 
     .action-btns { display: flex; gap: 6px; }
     .btn-sm { padding: 5px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; font-weight: 500; }
-    .btn-edit { background: #fff; border: 1px solid #e0e0e0; color: #333; }
-    .btn-edit:hover { background: #f5f5f0; }
-    .btn-del { background: #fff0f0; border: 1px solid #fcd; color: #c0392b; }
-    .btn-del:hover { background: #ffe0e0; }
+    .btn-edit { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+    .btn-edit:hover { background: rgba(255,255,255,0.12); }
+    .btn-del { background: #ff005522; border: 1px solid #ff0055; color: #ff0055; }
+    .btn-del:hover { background: #ff005540; }
 
-    .price-val { font-weight: 600; }
+    .price-val { font-weight: 600; color: var(--primary); }
   </style>
 </head>
 <body>
+
+<canvas id="bg-canvas"></canvas>
 
 <nav class="navbar">
   <a href="dashboard.php" class="brand">⚡ TopUp<span>Ku</span> <span style="font-weight:400;color:#888;font-size:13px;">Admin</span></a>
   <div class="navbar-right">
     <span>👤 <?= htmlspecialchars($_SESSION['admin_name']) ?></span>
-    <a href="profil.php" style="color:#555; text-decoration:none;">Profil</a>
+    <a href="profil.php" style="color:var(--primary); text-decoration:none;">Profil</a>
     <a href="logout.php">Keluar</a>
   </div>
 </nav>
@@ -275,11 +308,11 @@ if (isset($_GET['edit'])) {
       </thead>
       <tbody>
         <?php if (empty($products)): ?>
-          <tr><td colspan="6" style="text-align:center; color:#aaa; padding:32px;">Belum ada paket.</td></tr>
+          <tr><td colspan="6" style="text-align:center; color:#666; padding:32px;">Belum ada paket.</td></tr>
         <?php else: ?>
           <?php foreach ($products as $i => $p): ?>
             <tr>
-              <td style="color:#aaa;"><?= $i + 1 ?></td>
+              <td style="color:#666;"><?= $i + 1 ?></td>
               <td><?= htmlspecialchars($p['name']) ?></td>
               <td><span class="game-tag"><?= htmlspecialchars($p['game_name']) ?></span></td>
               <td class="price-val">Rp <?= number_format($p['price_customer'], 0, ',', '.') ?></td>
@@ -303,6 +336,97 @@ if (isset($_GET['edit'])) {
     </table>
   </div>
 </div>
+
+<script>
+const canvas = document.getElementById('bg-canvas');
+
+if(canvas){
+    const ctx = canvas.getContext('2d');
+
+    let w,h;
+    let particles = [];
+
+    function resize(){
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle{
+        constructor(){
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.vx = (Math.random() - 0.5) * 0.6;
+            this.vy = (Math.random() - 0.5) * 0.6;
+            this.size = Math.random() * 2 + 1;
+
+            const colors = [
+                'rgba(0,245,255,',
+                'rgba(191,0,255,',
+                'rgba(0,255,136,'
+            ];
+
+            this.color = colors[Math.floor(Math.random()*colors.length)];
+        }
+
+        update(){
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if(this.x < 0 || this.x > w) this.vx *= -1;
+            if(this.y < 0 || this.y > h) this.vy *= -1;
+        }
+
+        draw(){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+            ctx.fillStyle = this.color + '0.8)';
+            ctx.fill();
+        }
+    }
+
+    for(let i=0;i<70;i++){
+        particles.push(new Particle());
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,w,h);
+
+        particles.forEach((p,i)=>{
+
+            p.update();
+            p.draw();
+
+            for(let j=i+1;j<particles.length;j++){
+
+                const dx = p.x - particles[j].x;
+                const dy = p.y - particles[j].y;
+
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if(dist < 130){
+
+                    ctx.beginPath();
+                    ctx.moveTo(p.x,p.y);
+                    ctx.lineTo(particles[j].x,particles[j].y);
+
+                    ctx.strokeStyle =
+                    'rgba(0,245,255,' + (0.12*(1-dist/130)) + ')';
+
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+</script>
 
 </body>
 </html>

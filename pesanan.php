@@ -38,8 +38,6 @@ $orders = $stmt->fetchAll();
 <style>
 /* BACKGROUND ANIMATION */
 
-
-
 body{
     overflow-x:hidden;
 }
@@ -106,7 +104,7 @@ body{
 }
 
 .page-header{
-    padding:40px 20px;
+    padding:30px 20px;
     text-align:center;
 }
 
@@ -367,6 +365,28 @@ body{
 <canvas id="bg-canvas"></canvas>
 
 <script>
+function bukaModalBukti(src, orderId) {
+    document.getElementById('imgModal').src = src;
+    document.getElementById('btnDownload').href = src;
+    document.getElementById('orderLabel').textContent = 'Order ' + orderId;
+    document.getElementById('modalBukti').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function tutupModal(e) {
+    if (e.target.id === 'modalBukti' || e.target.classList.contains('close-btn')) {
+        document.getElementById('modalBukti').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('modalBukti').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+});
+</script>
+<canvas id="bg-canvas"></canvas>
+<script>
 const canvas = document.getElementById('bg-canvas');
 
 if(canvas){
@@ -416,7 +436,7 @@ if(canvas){
         }
     }
 
-    for(let i=0;i<60;i++){
+    for(let i=0;i<70;i++){
         particles.push(new Particle());
     }
 
@@ -424,6 +444,7 @@ if(canvas){
         ctx.clearRect(0,0,w,h);
 
         particles.forEach((p,i)=>{
+
             p.update();
             p.draw();
 
@@ -443,6 +464,7 @@ if(canvas){
                     ctx.strokeStyle =
                     'rgba(0,245,255,' + (0.12*(1-dist/130)) + ')';
 
+                    ctx.lineWidth = 1;
                     ctx.stroke();
                 }
             }

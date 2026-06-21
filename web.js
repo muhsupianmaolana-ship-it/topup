@@ -73,10 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Particles BG ─────────────────────────────────
-  if (document.querySelector('.game-grid') || document.querySelector('.topup-header')) {
-    initParticles();
-  }
+  // ── Particles BG (aktif di semua halaman, sama seperti admin) ──
+  initParticles();
 
   // ── Topup Page Logic ──────────────────────────────
   initTopupPage();
@@ -129,7 +127,7 @@ function toggleMenu() {
 window.toggleMenu = toggleMenu;
 
 // ════════════════════════════════════════════════════
-//  PARTICLES BACKGROUND
+//  PARTICLES BACKGROUND (sama seperti admin_transaksi.php)
 // ════════════════════════════════════════════════════
 function initParticles() {
   const canvas = document.getElementById('bg-canvas');
@@ -137,22 +135,21 @@ function initParticles() {
   const ctx = canvas.getContext('2d');
   let w, h, particles = [];
   const COLORS = ['rgba(0,245,255,', 'rgba(191,0,255,', 'rgba(0,255,136,'];
-  const particleCount = Math.min(55, Math.floor(window.innerWidth / 22));
+  const particleCount = 70;
   const maxDist = 130;
-  let mouse = { x: null, y: null };
+
   const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
   window.addEventListener('resize', resize);
   resize();
-  window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
 
   class Particle {
     constructor() { this.reset(); }
     reset() {
       this.x = Math.random() * w;
       this.y = Math.random() * h;
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.size = Math.random() * 1.8 + 0.8;
+      this.vx = (Math.random() - 0.5) * 0.6;
+      this.vy = (Math.random() - 0.5) * 0.6;
+      this.size = Math.random() * 2 + 1;
       this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
     }
     update() {
@@ -163,7 +160,7 @@ function initParticles() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = this.color + '0.7)';
+      ctx.fillStyle = this.color + '0.8)';
       ctx.fill();
     }
   }
@@ -179,19 +176,8 @@ function initParticles() {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = p.color + (0.12 * (1 - dist / maxDist)) + ')';
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-      }
-      if (mouse.x !== null) {
-        const dx = p.x - mouse.x, dy = p.y - mouse.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 160) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = p.color + (0.18 * (1 - dist / 160)) + ')';
+          ctx.strokeStyle = 'rgba(0,245,255,' + (0.12 * (1 - dist / maxDist)) + ')';
+          ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
