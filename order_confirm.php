@@ -84,6 +84,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
   <link rel="stylesheet" href="web.css">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ====== BACKGROUND ANIMASI (baru) ====== */
+    #bg-canvas{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        z-index:-1;
+        pointer-events:none;
+    }
+
+    body{
+        position:relative;
+        background:#0f0c29 !important;
+        overflow-x:hidden;
+    }
+
+    .navbar,
+    .confirm-wrapper{
+        position:relative;
+        z-index:2;
+    }
+    /* ====== END BACKGROUND ANIMASI ====== */
+
     .confirm-wrapper {
       max-width: 560px;
       margin: 40px auto;
@@ -361,7 +385,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
 <body>
 
   <nav class="navbar container">
-    <a href="index.php" class="brand">⚡ TopUpKu</a>
+    <a href="index.php" class="brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-text">TopUp<span class="brand-highlight">Ku</span></span>
+    </a>
   </nav>
 
   <main class="confirm-wrapper">
@@ -713,6 +740,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['bukti'])) {
       });
     })();
   </script>
+
+  <!-- ====== BACKGROUND ANIMASI (baru) ====== -->
+  <canvas id="bg-canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('bg-canvas');
+
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      let particles = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * w;
+          this.y = Math.random() * h;
+          this.vx = (Math.random() - 0.5) * 0.6;
+          this.vy = (Math.random() - 0.5) * 0.6;
+          this.size = Math.random() * 2 + 1;
+          const colors = ['rgba(0,245,255,', 'rgba(191,0,255,', 'rgba(0,255,136,'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > w) this.vx *= -1;
+          if (this.y < 0 || this.y > h) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + '0.8)';
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 70; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+
+        particles.forEach((p, i) => {
+          p.update();
+          p.draw();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = p.x - particles[j].x;
+            const dy = p.y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'rgba(0,245,255,' + (0.12 * (1 - dist / 130)) + ')';
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+  </script>
+  <!-- ====== END BACKGROUND ANIMASI ====== -->
 
 </body>
 </html>
