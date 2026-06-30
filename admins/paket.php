@@ -218,7 +218,7 @@ if (isset($_GET['edit'])) {
   <a href="dashboard.php" class="brand">⚡ TopUp<span>Ku</span> <span style="font-weight:400;color:#888;font-size:13px;">Admin</span></a>
   <div class="navbar-right">
     <span>👤 <?= htmlspecialchars($_SESSION['admin_name']) ?></span>
-    <a href="profil.php" style="color:var(--primary); text-decoration:none;">Profil</a>
+    <a href="profil.php" style="color:var(--primary); text-decoration:none;">Pengaturan Akun</a>
     <a href="logout.php">Keluar</a>
   </div>
 </nav>

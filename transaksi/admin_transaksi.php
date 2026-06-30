@@ -1,4 +1,13 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['transaksi_logged_in']) || $_SESSION['transaksi_logged_in'] !== true) {
+    header("Location: login_transaksi.php");
+    exit();
+}
+
 // 1. Koneksi Database
 $host = 'localhost';
 $user = 'root';
@@ -105,12 +114,27 @@ h1{
         .btn { padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: bold; cursor: pointer; display: inline-block; }
         .btn-confirm { background: var(--primary); color: #000; }
         .btn-reject { background: transparent; color: #ff4444; border: 1px solid #ff4444; margin-left: 5px; }
+
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .topbar h1 { margin: 0; }
+        .topbar-actions { display: flex; gap: 10px; align-items: center; }
+        .btn-setting { background: transparent; color: var(--primary); border: 1px solid var(--primary); padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+        .btn-setting:hover { background: rgba(0,245,255,0.1); }
+        .btn-logout { background: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+        .btn-logout:hover { background: #ff4444; color: #fff; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚀 Dashboard Admin Transaksi</h1>
+    <div class="topbar">
+        <h1>🚀 Dashboard Admin Transaksi</h1>
+        <div class="topbar-actions">
+            <a href="ganti_password.php" class="btn-setting">⚙️ Pengaturan Akun</a>
+            <a href="logout_transaksi.php" class="btn-logout" onclick="return confirm('Yakin ingin keluar?')">🚪 Keluar</a>
+        </div>
+    </div>
+
     <div class="stats-grid">
         <div class="stat-card"><h3>Total Pendapatan (Paid)</h3><p>Rp <?php echo number_format($total_income['total'] ?? 0, 0, ',', '.'); ?></p></div>
         <div class="stat-card"><h3>Total Pesanan Masuk</h3><p><?php echo $result->num_rows; ?> Transaksi</p></div>
