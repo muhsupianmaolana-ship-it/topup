@@ -542,7 +542,7 @@
       <span class="brand-text">TopUp<span class="brand-highlight">Ku</span></span>
     </a>
     <ul class="nav-menu">
-      <li><a href="http://localhost/TUGAS-WEB/index.php#" class="nav-link">Game</a></li>
+      <li><a href="http://localhost/topupku/index.php#" class="nav-link">Game</a></li>
       <li><a href="promo.php" class="nav-link active">Promo</a></li>
       <li><a href="#" class="nav-link">Pesanan</a></li>
       <li><a href="#" class="nav-link">Bantuan</a></li>
