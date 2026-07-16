@@ -1,0 +1,568 @@
+{
+  "project": {
+    "name": "TopUpKu",
+    "type": "Website Top Up Game",
+    "version": "3.0",
+    "developer": "Muh Supian Maolana",
+    "technology": {
+      "frontend": [
+        "HTML5",
+        "CSS3",
+        "JavaScript"
+      ],
+      "backend": [
+        "PHP Native"
+      ],
+      "database": [
+        "MySQL"
+      ],
+      "server": [
+        "Apache",
+        "XAMPP"
+      ]
+    }
+  },
+  "theme": {
+    "style": "Modern Gaming Neon",
+    "font": {
+      "heading": "Rajdhani",
+      "body": "Exo 2"
+    },
+    "colors": {
+      "primary": "#00F5FF",
+      "secondary": "#0F172A",
+      "success": "#00FF88",
+      "danger": "#FF0055",
+      "warning": "#FF6A00",
+      "background": "#050816",
+      "card": "#0B1120",
+      "text": "#FFFFFF"
+    }
+  },
+  "layout_standard": {
+    "global_structure": [
+      "Top Header",
+      "Navbar",
+      "Page Banner",
+      "Content",
+      "Footer"
+    ],
+    "navbar": {
+      "sticky": true,
+      "menu": [
+        "Game",
+        "Event",
+        "Pesanan",
+        "Bantuan"
+      ]
+    },
+    "footer": {
+      "sections": [
+        "Tentang Kami",
+        "Menu",
+        "Sosial Media",
+        "Kontak",
+        "Copyright"
+      ]
+    }
+  },
+  "navigation": {
+    "public": [
+      {
+        "name": "Game",
+        "file": "index.php"
+      },
+      {
+        "name": "Event",
+        "file": "promo.php"
+      },
+      {
+        "name": "Pesanan",
+        "file": "pesanan.php"
+      },
+      {
+        "name": "Bantuan",
+        "file": "bantuan.php"
+      }
+    ],
+    "admin_master": [
+      "Dashboard",
+      "Kelola Game",
+      "Kelola Produk",
+      "Kelola Pembayaran",
+      "Activity Logs",
+      "Profil",
+      "Logout"
+    ],
+    "admin_transaksi": [
+      "Dashboard",
+      "Pesanan Baru",
+      "Waiting Confirmation",
+      "Paid",
+      "Processing",
+      "Success",
+      "Rejected",
+      "Logout"
+    ]
+  },
+  "pages": {
+    "game": {
+      "file": "index.php",
+      "sections": [
+        "Navbar",
+        "Hero Slider",
+        "Search Game",
+        "Popular Games",
+        "All Games",
+        "Why Choose Us",
+        "Footer"
+      ],
+      "features": [
+        "Cari Game",
+        "Slider Promo",
+        "Klik Card Game",
+        "Top Up Sekarang"
+      ]
+    },
+    "detail_game": {
+      "file": "detail_game.php",
+      "sections": [
+        "Banner Game",
+        "Informasi Game",
+        "Input User ID",
+        "Input Zone ID",
+        "Pilih Produk",
+        "Pilih Pembayaran",
+        "Ringkasan Pesanan",
+        "Checkout"
+      ]
+    },
+    "promo": {
+      "file": "promo.php",
+      "sections": [
+        "Navbar",
+        "Hero Banner Event Musiman",
+        "Filter Tabs Event",
+        "Countdown Timer Event Aktif",
+        "Event Sedang Berlangsung",
+        "Event Mendatang",
+        "Event Selesai",
+        "Footer"
+      ],
+      "event_categories": [
+        "Semua Event",
+        "Ramadan",
+        "Lebaran",
+        "Natal & Tahun Baru",
+        "Harbolnas",
+        "HUT RI"
+      ],
+      "features": [
+        "Filter Event Per Kategori",
+        "Countdown Timer Live",
+        "Ilustrasi SVG Per Event",
+        "Tombol Klaim Promo",
+        "Tombol Ingatkan Saya",
+        "Status Event (Berlangsung / Mendatang / Selesai)"
+      ],
+      "event_list": [
+        {
+          "nama": "Ramadan Top Up Bonus",
+          "kategori": "Ramadan",
+          "diskon": "30%",
+          "ilustrasi": "siluet masjid + bulan sabit",
+          "status": "berlangsung"
+        },
+        {
+          "nama": "Lebaran Spesial",
+          "kategori": "Lebaran",
+          "diskon": "25%",
+          "ilustrasi": "ketupat ornamen emas",
+          "status": "mendatang"
+        },
+        {
+          "nama": "HUT RI ke-80",
+          "kategori": "HUT RI",
+          "diskon": "17%",
+          "ilustrasi": "bendera merah putih + bintang pancasila",
+          "status": "mendatang"
+        },
+        {
+          "nama": "Harbolnas 11.11",
+          "kategori": "Harbolnas",
+          "diskon": "35%",
+          "ilustrasi": "kardus belanja tag 11.11",
+          "status": "mendatang"
+        },
+        {
+          "nama": "Natal & Tahun Baru",
+          "kategori": "Natal & Tahun Baru",
+          "diskon": "20%",
+          "ilustrasi": "pohon natal + bola dekor",
+          "status": "mendatang"
+        }
+      ]
+    },
+    "pesanan": {
+      "file": "pesanan.php",
+      "sections": [
+        "Banner Tracking",
+        "Input Order ID",
+        "Cari Pesanan",
+        "Detail Pesanan",
+        "Status Pesanan",
+        "Footer"
+      ]
+    },
+    "bantuan": {
+      "file": "bantuan.php",
+      "sections": [
+        "Banner Bantuan",
+        "FAQ",
+        "Cara Top Up",
+        "Hubungi Admin",
+        "Syarat Dan Ketentuan",
+        "Footer"
+      ]
+    },
+    "login": {
+      "file": "login.php",
+      "sections": [
+        "Form Login",
+        "Remember Me",
+        "Forgot Password"
+      ]
+    },
+    "register": {
+      "file": "register.php",
+      "sections": [
+        "Nama",
+        "Username",
+        "Email",
+        "Password",
+        "Konfirmasi Password"
+      ]
+    },
+    "order_confirm": {
+      "file": "order_confirm.php",
+      "sections": [
+        "Order ID",
+        "Data Pesanan",
+        "Metode Pembayaran",
+        "Upload Bukti Transfer",
+        "Status Pesanan"
+      ]
+    }
+  },
+  "database": {
+    "tables": [
+      {
+        "name": "users",
+        "fields": [
+          "id",
+          "nama",
+          "username",
+          "email",
+          "password",
+          "created_at"
+        ]
+      },
+      {
+        "name": "admins",
+        "fields": [
+          "id",
+          "nama",
+          "username",
+          "password",
+          "role",
+          "created_at"
+        ]
+      },
+      {
+        "name": "games",
+        "fields": [
+          "id",
+          "nama_game",
+          "slug",
+          "gambar",
+          "status",
+          "created_at"
+        ]
+      },
+      {
+        "name": "products",
+        "fields": [
+          "id",
+          "game_id",
+          "nama_produk",
+          "harga_modal",
+          "harga_jual",
+          "status"
+        ]
+      },
+      {
+        "name": "payment_methods",
+        "fields": [
+          "id",
+          "nama",
+          "nomor",
+          "atas_nama",
+          "logo",
+          "status"
+        ]
+      },
+      {
+        "name": "orders",
+        "fields": [
+          "id",
+          "order_id",
+          "user_id",
+          "game_id",
+          "product_id",
+          "payment_method_id",
+          "user_game_id",
+          "zone_id",
+          "total_bayar",
+          "bukti_transfer",
+          "status",
+          "created_at"
+        ]
+      },
+      {
+        "name": "activity_logs",
+        "fields": [
+          "id",
+          "admin_id",
+          "aktivitas",
+          "created_at"
+        ]
+      }
+    ]
+  },
+  "roles": {
+    "admin_master": {
+      "description": "Mengelola seluruh sistem website",
+      "permissions": [
+        "Login",
+        "Dashboard",
+        "CRUD Game",
+        "CRUD Produk",
+        "CRUD Metode Pembayaran",
+        "Lihat Activity Logs",
+        "Kelola Profil"
+      ]
+    },
+    "admin_transaksi": {
+      "description": "Mengelola transaksi pelanggan",
+      "permissions": [
+        "Login",
+        "Dashboard",
+        "Lihat Pesanan Baru",
+        "Lihat Bukti Transfer",
+        "Verifikasi Pembayaran",
+        "Tolak Pembayaran",
+        "Ubah Status Paid",
+        "Ubah Status Processing",
+        "Ubah Status Success",
+        "Lihat Riwayat"
+      ]
+    }
+  },
+  "transaction_status": [
+    {
+      "status": "pending",
+      "description": "Menunggu pembayaran"
+    },
+    {
+      "status": "waiting_confirmation",
+      "description": "Menunggu verifikasi admin"
+    },
+    {
+      "status": "paid",
+      "description": "Pembayaran diterima"
+    },
+    {
+      "status": "processing",
+      "description": "Pesanan sedang diproses"
+    },
+    {
+      "status": "success",
+      "description": "Pesanan selesai"
+    },
+    {
+      "status": "rejected",
+      "description": "Pembayaran ditolak"
+    }
+  ],
+  "workflow": {
+    "user_transaction": [
+      "Pilih Game",
+      "Masuk Halaman Detail Game",
+      "Input User ID",
+      "Input Zone ID",
+      "Pilih Produk",
+      "Pilih Metode Pembayaran",
+      "Checkout",
+      "Generate Order ID",
+      "Status Pending",
+      "Transfer Pembayaran",
+      "Upload Bukti Transfer",
+      "Status Waiting Confirmation",
+      "Admin Verifikasi",
+      "Status Paid",
+      "Status Processing",
+      "Status Success"
+    ],
+    "admin_master": [
+      "Login",
+      "Dashboard",
+      "Kelola Game",
+      "Kelola Produk",
+      "Kelola Pembayaran",
+      "Lihat Activity Logs",
+      "Logout"
+    ],
+    "admin_transaksi": [
+      "Login",
+      "Dashboard",
+      "Lihat Pesanan Baru",
+      "Lihat Bukti Transfer",
+      "Verifikasi Pembayaran",
+      "Terima / Tolak",
+      "Paid",
+      "Processing",
+      "Success",
+      "Logout"
+    ]
+  },
+  "components": {
+    "navbar": [
+      "Logo TopUpKu",
+      "Game",
+      "Event",
+      "Pesanan",
+      "Bantuan",
+      "Search",
+      "Login"
+    ],
+    "hero_slider": [
+      "Promo Banner",
+      "Button Top Up",
+      "Button Promo"
+    ],
+    "game_card": [
+      "Thumbnail",
+      "Nama Game",
+      "Status 24/7",
+      "Button Top Up"
+    ],
+    "product_card": [
+      "Nama Produk",
+      "Jumlah Diamond",
+      "Harga",
+      "Pilih"
+    ],
+    "payment_card": [
+      "Logo",
+      "Nama Pembayaran",
+      "Nomor Pembayaran"
+    ],
+    "order_summary": [
+      "Game",
+      "User ID",
+      "Zone ID",
+      "Produk",
+      "Pembayaran",
+      "Total"
+    ],
+    "event_card": [
+      "Ilustrasi SVG Event",
+      "Badge Diskon",
+      "Tag Kategori",
+      "Nama Event",
+      "Deskripsi",
+      "Tanggal Berlaku",
+      "Tombol Aksi (Klaim / Ingatkan Saya)"
+    ],
+    "countdown_timer": [
+      "Judul Event",
+      "Kotak Jam",
+      "Kotak Menit",
+      "Kotak Detik"
+    ]
+  },
+  "future_upgrade": {
+    "firebase_fcm": [
+      "Notifikasi Pesanan Baru",
+      "Notifikasi Pembayaran Diterima",
+      "Notifikasi Pesanan Selesai",
+      "Notifikasi Promo"
+    ],
+    "schedule_cronjob": [
+      "Auto Cancel Order 24 Jam",
+      "Backup Database Harian",
+      "Generate Laporan Otomatis"
+    ],
+    "payment_gateway": [
+      "Tripay",
+      "Midtrans",
+      "Duitku"
+    ],
+    "report_system": [
+      "Laporan Harian",
+      "Laporan Bulanan",
+      "Laporan Tahunan"
+    ]
+  },
+  "folder_structure": {
+    "root": [
+      "index.php",
+      "promo.php",
+      "pesanan.php",
+      "bantuan.php",
+      "detail_game.php",
+      "order_confirm.php",
+      "login.php",
+      "register.php",
+      "logout.php",
+      "koneksi.php"
+    ],
+    "asset": {
+      "css": [
+        "web.css"
+      ],
+      "js": [
+        "web.js"
+      ],
+      "images": [
+        "games",
+        "promo",
+        "payment",
+        "logo"
+      ]
+    },
+    "uploads": [
+      "bukti_transfer"
+    ],
+    "admins": [
+      "auth.php",
+      "login_admin.php",
+      "dashboard.php",
+      "game_management.php",
+      "product_management.php",
+      "payment_management.php",
+      "activity_logs.php",
+      "profil.php",
+      "logout.php"
+    ],
+    "transaksi": [
+      "admin_transaksi.php",
+      "pesanan_baru.php",
+      "waiting_confirmation.php",
+      "paid.php",
+      "processing.php",
+      "success.php",
+      "rejected.php"
+    ]
+  }
+}
