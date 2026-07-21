@@ -3,85 +3,18 @@ session_start();
 // 1. Load koneksi
 require 'koneksi.php';
 
-// 2. Cek koneksi & ambil data game
-$db_status = '✅ Terhubung';
+// 2. Ambil data game
 $games = [];
 try {
-    $pdo->query("SELECT 1");
     $stmt = $pdo->query("SELECT id, code, name, sort_order FROM games WHERE is_active = 1 ORDER BY sort_order ASC");
     $games = $stmt->fetchAll();
 } catch (PDOException $e) {
-    $db_status = '❌ Gagal: ' . htmlspecialchars($e->getMessage());
+    // Kalau gagal, biarkan $games kosong — badge status DB sudah ditangani di header.php
 }
+
+$pageTitle = 'TopUpKu - Top Up Game Cepat & Aman';
+include 'header.php';
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TopUpKu - Top Up Game Cepat & Aman</title>
-  <link rel="stylesheet" href="web.css">
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-</head>
-<body>
-
-  <div class="db-badge <?= strpos($db_status, '✅') !== false ? 'success' : 'error' ?>">
-    DB: <?= $db_status ?>
-  </div>
-
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <span class="topbar-slogan">⚡ INSTANT TOP UP! INSTANT PLAY!</span>
-      <a href="pesanan.php" class="btn btn-outline-sm">Cek Pesanan</a>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="index.php" class="brand">
-        <span class="brand-icon">⚡</span>
-        <span class="brand-text">TopUp<span class="brand-highlight">Ku</span></span>
-      </a>
-
-      <ul class="nav-menu">
-  <li><a href="index.php#games" class="nav-link active">Game</a></li>
-  <li><a href="promo.php" class="nav-link">Promo</a></li>
-  <li><a href="pesanan.php" class="nav-link">Pesanan</a></li>
-  <li><a href="bantuan.php" class="nav-link">Bantuan</a></li>
-</ul>
-
-      <div class="nav-right">
-        <div class="search-wrapper">
-          <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" placeholder="Cari game...">
-        </div>
-        <?php if (isset($_SESSION['user_id'])): ?>
-          <div class="nav-user">
-            <span class="nav-username">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
-            <a href="logout.php" class="btn-logout">Keluar</a>
-          </div>
-        <?php else: ?>
-          <a href="login.php" class="btn btn-neon">Masuk</a>
-        <?php endif; ?>
-      </div>
-
-      <button class="hamburger" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-  <a href="index.php#games" class="mobile-link" onclick="toggleMenu()">Game</a>
-  <a href="promo.php" class="mobile-link" onclick="toggleMenu()">Promo</a>
-  <a href="pesanan.php" class="mobile-link" onclick="toggleMenu()">Pesanan</a>
-  <a href="bantuan.php" class="mobile-link" onclick="toggleMenu()">Bantuan</a>
-</div>
 
   <!-- HERO BANNER / SLIDER -->
   <section class="hero-slider">
@@ -191,16 +124,16 @@ try {
              data-aos-delay="<?= min($i * 60, 400) ?>">
 
             <div class="card-img-wrapper">
-  <img src="asset/<?= htmlspecialchars($game['code']) ?>.jpg.webp"
-       alt="<?= htmlspecialchars($game['name']) ?>"
-       onerror="this.src='asset/<?= htmlspecialchars($game['code']) ?>.jpg'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
-  
-  <div class="img-fallback"><?= strtoupper(substr($game['name'], 0, 3)) ?></div>
-  
-  <div class="card-hover-overlay">
-    <span class="hover-btn">⚡ Top Up</span>
-  </div>
-</div>
+              <img src="asset/<?= htmlspecialchars($game['code']) ?>.jpg.webp"
+                   alt="<?= htmlspecialchars($game['name']) ?>"
+                   onerror="this.src='asset/<?= htmlspecialchars($game['code']) ?>.jpg'; this.onerror=function(){ this.style.display='none'; this.nextElementSibling.style.display='flex'; };">
+
+              <div class="img-fallback"><?= strtoupper(substr($game['name'], 0, 3)) ?></div>
+
+              <div class="card-hover-overlay">
+                <span class="hover-btn">⚡ Top Up</span>
+              </div>
+            </div>
 
             <div class="card-body">
               <h3><?= htmlspecialchars($game['name']) ?></h3>
@@ -246,38 +179,4 @@ try {
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="index.php" class="brand">
-          <span class="brand-icon">⚡</span>
-          <span class="brand-text">TopUp<span class="brand-highlight">Ku</span></span>
-        </a>
-        <p>Platform top up game terpercaya,<br>cepat, dan aman 24/7.</p>
-      </div>
-      <div class="footer-links">
-        <h4>Menu</h4>
-        <a href="#games">Game</a>
-        <a href="#">Promo</a>
-        <a href="#">Pesanan</a>
-        <a href="#">Bantuan</a>
-      </div>
-      <div class="footer-links">
-        <h4>Ikuti Kami</h4>
-        <a href="https://www.instagram.com/lana_pleaseimprove" target="_blank">Instagram</a>
-        <a href="https://wa.me/6281998861649" target="_blank">WhatsApp</a>
-        <a href="mailto:emailbisnismu@gmail.com?subject=Tanya%20Seputar%20TopUpKu" target="_blank">Email</a>
-
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; <?= date('Y') ?> TopUpKu. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <canvas id="bg-canvas"></canvas>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="web.js"></script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

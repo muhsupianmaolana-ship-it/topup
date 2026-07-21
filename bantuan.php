@@ -70,7 +70,57 @@ include 'header.php';
         radial-gradient(ellipse at top, rgba(0, 229, 255, 0.08), transparent 60%),
         var(--bg-body);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
 }
+
+/* Efek aurora bergerak — dipakai ulang dari animasi hero (web.css) */
+.page-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(120,0,255,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 30% 60%, rgba(0,80,255,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(255,0,180,0.15) 0%, transparent 50%);
+    animation: auroraML 6s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+}
+.page-banner::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(0,200,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 60% 30%, rgba(180,0,255,0.15) 0%, transparent 50%);
+    animation: auroraML2 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+}
+.page-banner > .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Efek bintang jatuh — dipakai ulang dari animasi hero (web.css) */
+.page-banner .shooting-star {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px 2px rgba(180,0,255,0.8), 0 0 20px rgba(180,0,255,0.4);
+    z-index: 1;
+}
+.page-banner .shooting-star::after {
+    content: '';
+    position: absolute; top: 50%; right: 0;
+    transform: translateY(-50%);
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, rgba(180,0,255,0.8), transparent);
+}
+.page-banner .s1 { top: 15%; left: 80%; animation: shoot1 4s linear infinite; }
+.page-banner .s2 { top: 35%; left: 90%; animation: shoot1 6s linear infinite 1.5s; }
+.page-banner .s3 { top: 55%; left: 75%; animation: shoot1 5s linear infinite 3s; }
+.page-banner .s4 { top: 25%; left: 95%; animation: shoot1 7s linear infinite 0.8s; }
 
 .page-banner__title {
     font-family: 'Rajdhani', sans-serif;
@@ -343,8 +393,19 @@ include 'header.php';
 .contact-link--whatsapp i { color: #25D366; }
 .contact-link--whatsapp:hover { border-color: #25D366; }
 
-.contact-link--telegram i { color: #29b6f6; }
-.contact-link--telegram:hover { border-color: #29b6f6; }
+.contact-link--instagram:hover {
+    border: 1px solid transparent;
+    background:
+        linear-gradient(var(--bg-nav), var(--bg-nav)) padding-box,
+        linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d, #fcaf45) border-box;
+}
+
+.contact-link--instagram i {
+    background: linear-gradient(45deg, #405de6, #833ab4, #c13584, #e1306c, #fcaf45);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
 .contact-link--email i { color: var(--neon-orange, #ff7a00); }
 .contact-link--email:hover { border-color: var(--neon-orange, #ff7a00); }
@@ -376,6 +437,10 @@ include 'header.php';
 
 <!-- ========================= PAGE BANNER ========================= -->
 <section class="page-banner">
+    <div class="shooting-star s1"></div>
+    <div class="shooting-star s2"></div>
+    <div class="shooting-star s3"></div>
+    <div class="shooting-star s4"></div>
     <div class="container" data-aos="fade-up">
         <span class="section-badge">
             <i class="fa-solid fa-headset"></i> Pusat Bantuan
@@ -492,11 +557,11 @@ include 'header.php';
                         <small>Respon cepat, 24 jam</small>
                     </span>
                 </a>
-                <a href="https://t.me/topupku_support" target="_blank" rel="noopener" class="contact-link contact-link--telegram">
-                    <i class="fa-brands fa-telegram"></i>
+                <a href="https://www.instagram.com/lana_pleaseimprove" target="_blank" rel="noopener" class="contact-link contact-link--instagram">
+                    <i class="fa-brands fa-instagram"></i>
                     <span>
-                        <strong>Telegram</strong>
-                        <small>@topupku_support</small>
+                        <strong>Instagram</strong>
+                        <small>@lana_pleaseimprove</small>
                     </span>
                 </a>
                 <a href="mailto:support@topupku.com" class="contact-link contact-link--email">
